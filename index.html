@@ -90,7 +90,7 @@
         // Fungsi untuk memuat data JSON
         async function loadSiswaData() {
             try {
-                const response = await fetch('./data.json'); // Ganti dengan path yang sesuai
+                const response = await fetch('https://masozin.github.io/asesmen-mtsnf/data.json'); // Ganti dengan path yang sesuai
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
