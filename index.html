@@ -175,10 +175,10 @@
                 // Sembunyikan spinner
                 hideSpinner();
 
-                const newWindow = window.open("", "_blank");
+                //const newWindow = window.open("", "_blank");
                 if (link && link.link) {
-                    //window.open(link.link, "_blank");
-                    newWindow.location.href = link.link;
+                    window.location.href = link.link;
+                    //newWindow.location.href = link.link;
                 } else {
                     newWindow.close(); // Tutup jendela kalau link-nya tidak valid
                     document.getElementById('kodeErrorMessage').textContent = "Kode Login salah, silakan coba lagi.";
