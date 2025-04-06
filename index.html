@@ -176,7 +176,9 @@
                 hideSpinner();
 
                 if (link && link.link) {
-                    window.open(link.link, "_blank");
+                    //window.open(link.link, "_blank");
+                    newWindow.location.href = link.link;
+                    newWindow.close(); // Tutup jendela kalau link-nya tidak valid
                 } else {
                     document.getElementById('kodeErrorMessage').textContent = "Kode Login salah, silakan coba lagi.";
                 }
