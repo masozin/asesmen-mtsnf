@@ -166,7 +166,6 @@
 
             try {
                 // Kirim permintaan ke Google Apps Script
-                const newWindow = window.open("", "_blank");
                 const response = await fetch(
                     `${googleScriptUrl}?action=getFormLink&token=${token}&kode=${kode}&studentData=${encodeURIComponent(JSON.stringify(studentData))}`
                 );
@@ -176,6 +175,7 @@
                 // Sembunyikan spinner
                 hideSpinner();
 
+                const newWindow = window.open("", "_blank");
                 if (link && link.link) {
                     //window.open(link.link, "_blank");
                     newWindow.location.href = link.link;
