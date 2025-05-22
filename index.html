@@ -178,7 +178,7 @@
 
                 //const newWindow = window.open("", "_blank");
                 if (result.link) {
-                    window.location.href = link.link;
+                    window.location.href = result.link;
                     //newWindow.location.href = link.link;
                 }else if (result.error) {
                     document.getElementById('kodeErrorMessage').textContent = result.error;
