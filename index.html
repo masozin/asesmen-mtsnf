@@ -171,18 +171,20 @@
                     `${googleScriptUrl}?action=getFormLink&token=${token}&kode=${kode}&studentData=${encodeURIComponent(JSON.stringify(studentData))}`
                 );
 
-                const link = await response.json();
+                const result = await response.json();
 
                 // Sembunyikan spinner
                 hideSpinner();
 
                 //const newWindow = window.open("", "_blank");
-                if (link && link.link) {
+                if (result.link) {
                     window.location.href = link.link;
                     //newWindow.location.href = link.link;
+                }else if (result.error) {
+                    document.getElementById('kodeErrorMessage').textContent = result.error;
                 } else {
-                    newWindow.close(); // Tutup jendela kalau link-nya tidak valid
-                    document.getElementById('kodeErrorMessage').textContent = "Kode Login salah, silakan coba lagi.";
+                    // newWindow.close(); // Tutup jendela kalau link-nya tidak valid
+                    document.getElementById('kodeErrorMessage').textContent = "Maaf, Terjadi Kesalahan.";
                 }
             } catch (error) {
                 console.error("Error:", error);
