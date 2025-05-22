@@ -139,56 +139,57 @@
 
         async function verifyKode() {
             const googleScriptUrl = 'https://script.google.com/macros/s/AKfycbzO9siJBod2QZG-qD2NiOkdmnW49VfRNqMej-OiO9zoiuNR5X_o0NFxsqx4FZzIwQCt/exec';
-        
+
             const kode = document.getElementById('kode').value.trim();
             const token = document.getElementById('token').value.trim();
             const kelas = document.getElementById('kelas').textContent.trim();
             const nama = document.getElementById('nama').textContent.trim();
             const nisn = document.getElementById('nisn').textContent.trim();
-        
+
+
             document.getElementById('kodeErrorMessage').textContent = "";
-        
+
             if (!kode) {
                 document.getElementById('kodeErrorMessage').textContent = "Kode Login tidak boleh kosong.";
                 return;
             }
-        
-            const studentData = { token, nama, kelas, nisn };
-        
+
+            // Membuat objek studentData
+            const studentData = {
+                token,
+                nama,
+                kelas,
+                nisn,
+            };
+
+            // Tampilkan spinner jika ada
             showSpinner();
-        
+
             try {
-                const response = await fetch(googleScriptUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'getFormLink',
-                        token,
-                        kode,
-                        studentData
-                    })
-                });
-        
-                const result = await response.json();
+                // Kirim permintaan ke Google Apps Script
+                const response = await fetch(
+                    `${googleScriptUrl}?action=getFormLink&token=${token}&kode=${kode}&studentData=${encodeURIComponent(JSON.stringify(studentData))}`
+                );
+
+                const link = await response.json();
+
+                // Sembunyikan spinner
                 hideSpinner();
-        
-                if (result.link) {
-                    window.location.href = result.link;
-                } else if (result.error) {
-                    document.getElementById('kodeErrorMessage').textContent = result.error;
+
+                //const newWindow = window.open("", "_blank");
+                if (link && link.link) {
+                    window.location.href = link.link;
+                    //newWindow.location.href = link.link;
                 } else {
-                    document.getElementById('kodeErrorMessage').textContent = "Maaf, Terjadi Kesalahan.";
+                    newWindow.close(); // Tutup jendela kalau link-nya tidak valid
+                    document.getElementById('kodeErrorMessage').textContent = "Kode Login salah, silakan coba lagi.";
                 }
             } catch (error) {
-                console.error("Error detail:", error);
-                alert("Fetch error: " + error.message);
+                console.error("Error:", error);
                 hideSpinner();
                 document.getElementById('kodeErrorMessage').textContent = "Terjadi kesalahan server.";
             }
         }
-
 
 
         function showSpinner() {
