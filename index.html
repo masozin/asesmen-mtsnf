@@ -186,8 +186,9 @@
                     // newWindow.close(); // Tutup jendela kalau link-nya tidak valid
                     document.getElementById('kodeErrorMessage').textContent = "Maaf, Terjadi Kesalahan.";
                 }
-            } catch (error) {
-                console.error("Error:", error);
+            catch (error) {
+                console.error("Error detail:", error);
+                alert("Fetch error: " + error.message); // Tambahkan ini
                 hideSpinner();
                 document.getElementById('kodeErrorMessage').textContent = "Terjadi kesalahan server.";
             }
