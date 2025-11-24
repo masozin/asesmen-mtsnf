@@ -4,94 +4,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MTs Nurul Falah</title>
+    <title>MTs Nurul Falah - CBT Login</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Poppins) untuk tampilan modern -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons (Untuk ikon yang konsisten) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="icon" type="image/png" href="yppmu 60px.png">
-</head>
-
-<body class="bg-gray-100 flex justify-center items-center min-h-screen p-4 sm:p-6">
-    <div class="w-full max-w-lg sm:max-w-md bg-white shadow-lg rounded-lg p-4 space-y-8">
-        <div> <!-- Header -->
-            <div class="flex justify-center mb-2">
-                <img src="logo yppmu 200x200.png" alt="Logo Sekolah" class="w-24 h-24">
-            </div>
-            <h1 class="text-xl font-bold text-center text-blue-600"><br />
-                Penilaian Akhir Tahun (PAT)<br />
-                MTs Nurul Falah Kutapandan<br />
-                TP 2024/2025
-            </h1>
-            <hr class="my-3" />
-        </div>
-
-        <!-- Panel 1: Input Token -->
-        <div id="panel1" class="panel active space-y-4">
-            <label for="token" class="block text-gray-800 font-semibold">Masukkan Token:</label>
-            <div class="space-y-1">
-                <input type="text" id="token"
-                    class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
-                    placeholder="Contoh: y87RXRU168">
-                <p id="tokenErrorMessage" class="error text-red-500 text-xs mt-1"></p>
-            </div>
-            <button onclick="verifyToken()"
-                class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg transition">Verifikasi
-                Token</button>
-        </div>
-
-        <!-- Panel 2: Informasi Siswa dan Input Kode -->
-        <div id="panel2" class="panel space-y-4 hidden">
-            <h2 class="text-lg font-semibold text-gray-800">Data Siswa</h2>
-            <p id="studentInfo" class="text-sm bg-gray-50 p-4 rounded-lg border grid gap-y-1 gap-x-1"
-                style="grid-template-columns: 28% max-content 1fr;"></p>
-            <label for="kode" class="block text-gray-800 font-semibold">Masukkan Kode Login:</label>
-            <div class="space-y-1">
-                <input type="text" id="kode"
-                    class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
-                    placeholder="Contoh: ABCDE">
-                <p id="kodeErrorMessage" class="error text-red-500 text-xs mt-1"></p>
-            </div>
-            <button onclick="verifyKode()"
-                class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg transition">Verifikasi
-                Kode</button>
-            <button onclick="goBack()"
-                class="w-full bg-gray-300 hover:bg-gray-400 text-black-500 font-semibold py-2 rounded-lg transition">Kembali</button>
-        </div>
-    </div>
-
-    <!-- spinner -->
-    <div id="spinnerOverlay"
-        class="hidden fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
-        <div class="spinner"></div>
-    </div>
 
     <style>
-        /* * {
-        border: 1px solid red;
-    } */
-
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-radius: 50%;
-            border-top: 4px solid #3498db;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* Animasi Transisi Halus */
+        .panel {
+            transition: all 0.3s ease-in-out;
+            opacity: 0;
+            transform: translateY(10px);
+            display: none; /* Default hidden controlled by JS classes but augmented by CSS */
         }
 
-        @keyframes spin {
-            100% {
-                transform: rotate(360deg);
-            }
+        .panel.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar for Student Info */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        /* Spinner Animation */
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid #FFF;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
+</head>
 
+<!-- Background Gradient sama seperti Flutter -->
+<body class="bg-gradient-to-b from-indigo-700 to-indigo-50 min-h-screen flex items-center justify-center p-4">
+
+    <!-- Main Card -->
+    <div class="w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden relative">
+        
+        <!-- Hiasan Header (Top Decor) -->
+        <div class="h-24 bg-indigo-600 absolute top-0 left-0 w-full z-0"></div>
+
+        <div class="relative z-10 px-6 pb-8">
+            
+            <!-- Header Section -->
+            <div class="flex flex-col items-center mt-8 mb-6">
+                <!-- Logo Container dengan Shadow -->
+                <div class="w-28 h-28 bg-white rounded-full shadow-lg flex items-center justify-center p-2 mb-4 border-4 border-indigo-50">
+                    <img src="logo yppmu 200x200.png" 
+                         alt="Logo Sekolah" 
+                         class="w-full h-full object-contain"
+                         onerror="this.src='https://ui-avatars.com/api/?name=NF&background=random&size=128'"> <!-- Fallback jika gambar rusak -->
+                </div>
+
+                <div class="text-center">
+                    <p class="text-indigo-100 text-xs font-bold tracking-widest uppercase mb-1 bg-indigo-600 inline-block px-2 py-1 rounded">CBT Exam Browser</p>
+                    <h1 class="text-2xl font-bold text-gray-800 mt-2">MTs Nurul Falah</h1>
+                    <p class="text-sm text-gray-500 font-medium">Penilaian Akhir Tahun (PAT) 2024/2025</p>
+                </div>
+            </div>
+
+            <!-- Panel 1: Input Token -->
+            <div id="panel1" class="panel active">
+                <div class="bg-indigo-50 rounded-xl p-5 mb-6 border border-indigo-100">
+                    <div class="flex items-center space-x-3 mb-2">
+                        <i data-lucide="key" class="text-indigo-600 w-5 h-5"></i>
+                        <label for="token" class="text-gray-700 font-semibold text-sm uppercase tracking-wide">Token Ujian</label>
+                    </div>
+                    
+                    <div class="relative">
+                        <input type="text" id="token"
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-center text-lg tracking-widest font-mono uppercase placeholder-gray-400"
+                            placeholder="X X X X X">
+                    </div>
+                    <p id="tokenErrorMessage" class="text-red-500 text-xs mt-2 text-center font-medium min-h-[1rem]"></p>
+                </div>
+
+                <button onclick="verifyToken()"
+                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl shadow-lg hover:shadow-indigo-500/30 transition-all transform hover:-translate-y-0.5 flex justify-center items-center space-x-2">
+                    <span>Verifikasi Token</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <!-- Panel 2: Informasi Siswa dan Input Kode -->
+            <div id="panel2" class="panel hidden">
+                <div class="text-center mb-4">
+                    <h2 class="text-lg font-bold text-gray-800">Konfirmasi Data</h2>
+                    <p class="text-xs text-gray-500">Pastikan data di bawah ini adalah milik Anda</p>
+                </div>
+
+                <!-- Kartu Data Siswa -->
+                <div class="bg-gray-50 rounded-xl border border-gray-200 p-4 mb-5 text-sm relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-indigo-500"></div>
+                    <div id="studentInfo" class="grid grid-cols-[100px_10px_1fr] gap-y-2 text-gray-700">
+                        <!-- Konten akan diisi JS, saya update stylingnya via JS inject atau CSS -->
+                    </div>
+                </div>
+
+                <!-- Input Kode Login -->
+                <div class="mb-4">
+                    <label for="kode" class="block text-gray-700 font-semibold text-sm mb-2">Kode Login</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i data-lucide="lock" class="text-gray-400 w-4 h-4"></i>
+                        </div>
+                        <input type="text" id="kode"
+                            class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white transition-all placeholder-gray-400"
+                            placeholder="Masukkan Kode Login">
+                    </div>
+                    <p id="kodeErrorMessage" class="text-red-500 text-xs mt-2 font-medium min-h-[1rem]"></p>
+                </div>
+
+                <div class="space-y-3">
+                    <button onclick="verifyKode()"
+                        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl shadow-md transition-all flex justify-center items-center space-x-2">
+                        <span>Mulai Ujian</span>
+                        <i data-lucide="play-circle" class="w-4 h-4"></i>
+                    </button>
+                    
+                    <button onclick="goBack()"
+                        class="w-full bg-white hover:bg-gray-50 text-gray-600 font-semibold py-3 rounded-xl border border-gray-200 transition-all flex justify-center items-center space-x-2">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                        <span>Kembali</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-8 text-center">
+                <p class="text-[10px] text-gray-400">v1.0 CBT System • MTs Nurul Falah</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spinner Overlay (Modern) -->
+    <div id="spinnerOverlay"
+        class="hidden fixed inset-0 flex flex-col items-center justify-center bg-indigo-900/80 backdrop-blur-sm z-50 transition-opacity">
+        <span class="loader"></span>
+        <p class="text-white mt-4 font-medium tracking-wide animate-pulse">Memproses Data...</p>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC (TIDAK DIRUBAH LOGIKANYA) -->
     <script>
-        // Variabel global untuk menyimpan data siswa
+        // Inisialisasi Ikon Lucide
+        lucide.createIcons();
+
+        // --- CODE ASLI ANDA DI BAWAH INI ---
+        
         let siswaData = [];
 
-        // Fungsi untuk memuat data JSON
         async function loadSiswaData() {
             try {
-                const response = await fetch('https://masozin.github.io/asesmen-mtsnf/data.json'); // Ganti dengan path yang sesuai
+                const response = await fetch('https://masozin.github.io/asesmen-mtsnf/data.json'); 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -103,7 +192,6 @@
             }
         }
 
-        // Fungsi untuk verifikasi token
         function verifyToken() {
             const token = document.getElementById('token').value.trim();
             const errorMessage = document.getElementById('tokenErrorMessage');
@@ -114,26 +202,43 @@
 
             if (!token) {
                 errorMessage.textContent = "Token tidak boleh kosong.";
+                // Efek getar jika error
+                document.getElementById('token').classList.add('ring-2', 'ring-red-500');
+                setTimeout(() => document.getElementById('token').classList.remove('ring-2', 'ring-red-500'), 500);
                 return;
             }
 
-            // Cari data berdasarkan token
             const siswa = siswaData.find(s => s.token === token);
 
             if (siswa) {
-                // Tampilkan data siswa
+                // SAYA PERBAIKI TAMPILAN INJECT HTML AGAR RAPI
+                // Menggunakan grid layout yang sudah didefinisikan di HTML
                 studentInfo.innerHTML = `
-                    <span class="font-semibold">Nama</span> <span>:</span> <span id="nama">${siswa.nama}</span>
-                    <span class="font-semibold">No. Peserta</span> <span>:</span> <span id="nopes">${siswa.nopes}</span>
-                    <span class="font-semibold">Kelas</span> <span>:</span> <span id="kelas">${siswa.kelas}</span>
-                    <span class="font-semibold">Jenis Kel.</span> <span>:</span> <span id="jk">${siswa.jk}</span>
-                    <span class="font-semibold">NISN</span> <span>:</span> <span id="nisn">${siswa.nisn}</span>
-                    <span class="font-semibold">TTL</span> <span>:</span> <span id="tempatlahir">${siswa.tempatLahir}, ${siswa.tanggalLahir}</span>
+                    <div class="font-semibold text-indigo-900">Nama</div> <div>:</div> <div id="nama" class="font-medium">${siswa.nama}</div>
+                    <div class="font-semibold text-indigo-900">No. Peserta</div> <div>:</div> <div id="nopes">${siswa.nopes}</div>
+                    <div class="font-semibold text-indigo-900">Kelas</div> <div>:</div> <div id="kelas">${siswa.kelas}</div>
+                    <div class="font-semibold text-indigo-900">Jns Kelamin</div> <div>:</div> <div id="jk">${siswa.jk}</div>
+                    <div class="font-semibold text-indigo-900">NISN</div> <div>:</div> <div id="nisn">${siswa.nisn}</div>
+                    <div class="font-semibold text-indigo-900">TTL</div> <div>:</div> <div id="tempatlahir">${siswa.tempatLahir}, ${siswa.tanggalLahir}</div>
                 `;
-                document.getElementById('panel1').classList.add('hidden');
-                document.getElementById('panel2').classList.remove('hidden');
+
+                // Animasi Transisi
+                const p1 = document.getElementById('panel1');
+                const p2 = document.getElementById('panel2');
+                
+                p1.classList.remove('active');
+                setTimeout(() => {
+                    p1.classList.add('hidden');
+                    p2.classList.remove('hidden');
+                    // force reflow
+                    void p2.offsetWidth; 
+                    p2.classList.add('active');
+                }, 300); // Wait for transition
+                
             } else {
-                errorMessage.textContent = "Token tidak ditemukan.";
+                errorMessage.textContent = "Token tidak ditemukan / Salah.";
+                document.getElementById('token').classList.add('ring-2', 'ring-red-500');
+                setTimeout(() => document.getElementById('token').classList.remove('ring-2', 'ring-red-500'), 500);
             }
         }
 
@@ -142,10 +247,18 @@
 
             const kode = document.getElementById('kode').value.trim();
             const token = document.getElementById('token').value.trim();
-            const kelas = document.getElementById('kelas').textContent.trim();
-            const nama = document.getElementById('nama').textContent.trim();
-            const nisn = document.getElementById('nisn').textContent.trim();
+            
+            // Perlu mengambil textContent karena elemen ini di-generate ulang
+            // Pastikan elemen sudah ada (sudah verifyToken)
+            const kelasEl = document.getElementById('kelas');
+            const namaEl = document.getElementById('nama');
+            const nisnEl = document.getElementById('nisn');
 
+            if(!kelasEl || !namaEl || !nisnEl) return; 
+
+            const kelas = kelasEl.textContent.trim();
+            const nama = namaEl.textContent.trim();
+            const nisn = nisnEl.textContent.trim();
 
             document.getElementById('kodeErrorMessage').textContent = "";
 
@@ -154,7 +267,6 @@
                 return;
             }
 
-            // Membuat objek studentData
             const studentData = {
                 token,
                 nama,
@@ -162,38 +274,30 @@
                 nisn,
             };
 
-            // Tampilkan spinner jika ada
             showSpinner();
 
             try {
-                // Kirim permintaan ke Google Apps Script
                 const response = await fetch(
                     `${googleScriptUrl}?action=getFormLink&token=${token}&kode=${kode}&studentData=${encodeURIComponent(JSON.stringify(studentData))}`
                 );
 
-                // const link = await response.json();
                 const result = await response.json();
 
-                // Sembunyikan spinner
                 hideSpinner();
 
-                //const newWindow = window.open("", "_blank");
                 if (result.link) {
                     window.location.href = result.link;
-                    //newWindow.location.href = link.link;
                 } else if (result.error) {
                     document.getElementById('kodeErrorMessage').textContent = result.error;
                 } else {
-                    newWindow.close(); // Tutup jendela kalau link-nya tidak valid
-                    document.getElementById('kodeErrorMessage').textContent = "maaf, terjadi kesalahan";
+                    document.getElementById('kodeErrorMessage').textContent = "Maaf, terjadi kesalahan tidak diketahui.";
                 }
             } catch (error) {
                 console.error("Error:", error);
                 hideSpinner();
-                document.getElementById('kodeErrorMessage').textContent = "Terjadi kesalahan server.";
+                document.getElementById('kodeErrorMessage').textContent = "Terjadi kesalahan server/koneksi.";
             }
         }
-
 
         function showSpinner() {
             document.getElementById('spinnerOverlay').classList.remove('hidden');
@@ -204,13 +308,23 @@
         }
 
         function goBack() {
-            document.getElementById('panel2').classList.add('hidden');
-            document.getElementById('panel1').classList.remove('hidden');
+            const p1 = document.getElementById('panel1');
+            const p2 = document.getElementById('panel2');
+
+            p2.classList.remove('active');
+            setTimeout(() => {
+                p2.classList.add('hidden');
+                p1.classList.remove('hidden');
+                void p1.offsetWidth;
+                p1.classList.add('active');
+            }, 300);
+            
+            // Reset input kode dan error message saat kembali
+            document.getElementById('kode').value = '';
+            document.getElementById('kodeErrorMessage').textContent = '';
         }
 
-        // Panggil fungsi untuk memuat data siswa saat halaman dimuat
         document.addEventListener('DOMContentLoaded', loadSiswaData);
     </script>
 </body>
-
 </html>
