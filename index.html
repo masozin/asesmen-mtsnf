@@ -101,7 +101,7 @@
               MTs Nurul Falah
             </h1>
             <p class="text-sm text-gray-500 font-medium">
-              Penilaian Akhir Semester (PAS) 2025/2026
+              Ujian Madrasah (UM) 2025/2026
             </p>
           </div>
         </div>
@@ -283,6 +283,8 @@
         }
 
         const siswa = siswaData.find((s) => s.userId === userId);
+        console.log("user input", userId);
+        console.log("daftar user:", siswaData);
 
         if (siswa) {
           // SAYA PERBAIKI TAMPILAN INJECT HTML AGAR RAPI
